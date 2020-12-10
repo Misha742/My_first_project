@@ -79,7 +79,7 @@ public class MainBrain : MonoBehaviour
 
         if (transform.position == targetPos)
          {
-            Debug.Log("NAXYU");
+            //Debug.Log("NAXYU");
             Click = false;
             mark[2]= false;
             
@@ -91,7 +91,7 @@ public class MainBrain : MonoBehaviour
         {
 
             ClickToMove();
-            Debug.Log("!!!!!!");
+            //Debug.Log("!!!!!!");
         }
 
 
@@ -164,7 +164,7 @@ public class MainBrain : MonoBehaviour
     {
         //targetPos = farmObj.target.position;
         targetPos = NearObject.transform.position;
-        Debug.Log(targetPos);
+        //Debug.Log(targetPos);
         Click = true;
     }
 
@@ -173,14 +173,14 @@ public class MainBrain : MonoBehaviour
         Click = true;
         targetPos = firstPosition;
         
-            Debug.Log("@@@@@@@@@@@@@@@"+firstPosition);
+            //Debug.Log("@@@@@@@@@@@@@@@"+firstPosition);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Farm")
         {
-        Debug.Log("targetPos ___" + collision.gameObject.name );
+        //Debug.Log("targetPos ___" + collision.gameObject.name );
         Click = false; 
         mark[1]= false;
         gathering();
