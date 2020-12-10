@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
+    public Vector2 targetPos;
+    public bool walk;
 
     private Rigidbody2D myRigidbody;
     private Vector3 change;
     private Animator animator;
+
 
 
     // Start is called before the first frame update
@@ -16,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        walk = false;
     }
 
     // Update is called once per frame
@@ -25,6 +29,10 @@ public class PlayerMovement : MonoBehaviour
         change.x = Input.GetAxis("Horizontal");
         change.y = Input.GetAxis("Vertical");
         UpdateAnimationAndMove();
+        if (walk)
+        {
+            ClickToMove();
+        }
         
     }
 
@@ -55,6 +63,22 @@ public class PlayerMovement : MonoBehaviour
     void Check_Touch()
     {
     
+    }
+
+    void ClickToMove()
+    {
+        //float step = moveSpeed;
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed);
+
+    }
+
+        void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Farm")
+        {
+        walk = false;
+        }
+
     }
 
 }

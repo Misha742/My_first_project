@@ -9,13 +9,22 @@ public class Click : MonoBehaviour
     public GameObject selectedObject;
     public GameObject ClickActive;
     private Vector3 small = new Vector3(1,1,0);
-    public Button yourButton;
+    public GameObject Player;
+    public PlayerMovement referensePM;
+
+
+    //bottom
+
+    public Button GrossB;
+    public Button WalkB;
     // Start is called before the first frame update
     void Start()
     {
-        Button btn = yourButton.GetComponent<Button>();
-		btn.onClick.AddListener(ClickGrossing);
-        
+        //Button btn = GrossB.GetComponent<Button>();
+		GrossB.onClick.AddListener(ClickGrossing);
+        WalkB.onClick.AddListener(ClickGrossing);
+        referensePM = Player.GetComponent<PlayerMovement>();
+        ClickActive.SetActive(false);
     }
 
     // Update is called once per frame
@@ -48,6 +57,8 @@ public class Click : MonoBehaviour
         }
     }
     void ClickGrossing(){
-		Debug.Log ("You have clicked the button!");
+		referensePM.targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);;
+        referensePM.walk = true;
+        ClickActive.SetActive(false);
 	}
 }

@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 75908333}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -299,6 +299,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.25
+  targetPos: {x: 0, y: 0}
+  walk: 0
 --- !u!95 &75908328
 Animator:
   serializedVersion: 3
@@ -3163,7 +3165,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedObject: {fileID: 0}
   ClickActive: {fileID: 1582168701}
-  yourButton: {fileID: 1741100706}
+  Player: {fileID: 75908324}
+  referensePM: {fileID: 0}
+  GrossB: {fileID: 1741100706}
+  WalkB: {fileID: 0}
 --- !u!1 &2039666593
 GameObject:
   m_ObjectHideFlags: 0
