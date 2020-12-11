@@ -9,9 +9,19 @@ public class Click : MonoBehaviour
     public GameObject selectedObject;
     public GameObject ClickActive;
     private Vector3 small = new Vector3(1,1,0);
+
+    public GameObject Convas;
+    public CanvasForPlayer referenseCFP;
+
+    public GameObject Panel;
+    public ProgressBar referensePB;
+
+
     public GameObject Player;
     public PlayerMovement referensePM;
+    public Farm referenseF;
 
+    public string Activity = "none";
 
     //bottom
 
@@ -23,7 +33,10 @@ public class Click : MonoBehaviour
         //Button btn = GrossB.GetComponent<Button>();
 		GrossB.onClick.AddListener(ClickGrossing);
         WalkB.onClick.AddListener(ClickGrossing);
-        referensePM = Player.GetComponent<PlayerMovement>();
+        referensePM = Player.GetComponent<PlayerMovement>();    // for change activities
+        referenseCFP = Convas.GetComponent<CanvasForPlayer>(); // for progress bar
+        referensePB = Panel.GetComponent<ProgressBar>();
+        referenseF = Player.GetComponent<Farm>();
         ClickActive.SetActive(false);
     }
 
@@ -45,6 +58,12 @@ public class Click : MonoBehaviour
 
             }
         }
+
+        if (Activity == "grossing")
+        {
+            referensePB.IncrementProgress(referenseF.percent/100.0f);
+            Debug.Log(referenseF.percent + "   !!!!  ");
+        }
     }
 
     void CheckObj()
@@ -57,8 +76,12 @@ public class Click : MonoBehaviour
         }
     }
     void ClickGrossing(){
+        
 		referensePM.targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);;
         referensePM.walk = true;
         ClickActive.SetActive(false);
+        Activity = "grossing";
+ 
+        //Debug.Log(referenseF.percent + "    " + referensePB.FinishBar );
 	}
 }
