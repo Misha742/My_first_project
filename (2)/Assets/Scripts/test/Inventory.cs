@@ -13,6 +13,15 @@ public class Inventory : MonoBehaviour
     public GameObject InventoryMainObject;
     public int maxCount;
 
+    public Camera cam;
+    public EventSystem es;
+
+    public int currentID;
+    public ItemInventory currentItem;
+
+    public RectTransform movingObject;
+    public Vector3 offset;
+
     public void AddItem(int id, Item item, int count)
     {
         items[id].id = item.id;
@@ -30,7 +39,7 @@ public class Inventory : MonoBehaviour
 
     }
 
-    public void AddImventoryItem(int id, ItemInventory invItem)
+    public void AddInventoryItem(int id, ItemInventory invItem)
     {
         items[id].id = invItem.id;
         items[id].count = invItem.count;
@@ -69,6 +78,44 @@ public class Inventory : MonoBehaviour
             items.Add(ii);
 
         }
+    }
+
+    public void SelectObject()
+    {
+        if (currentID == -1)
+        {
+            currentID = int.Parse(es.currentSelectedGameObject.name);
+            currentItem = CopyInventoryItem(items[currentID]);
+            movingObject.gameObject.SetActive(true);
+            movingObject.GetComponent<Image>().sprite = data.items[currentItem.id].image;
+
+            AddItem(currentID, data.items[0], 0);
+        }
+        else
+        {
+            AddInventoryItem(currentID, items[int.Parse(es.currentSelectedGameObject.name)]);
+
+            AddInventoryItem(int.Parse(es.currentSelectedGameObject.name), currentItem);
+            currentID -= 1;
+
+            movingObject.gameObject.SetActive(false);
+        }
+    }
+
+    public void MoveObject()
+    {
+        Vector3 pos = Input.mousePosition + offset;
+        pos.z = InventoryMainObject.GetComponent<RectTransform>().position.z;
+        movingObject.position = cam.ScreenToWorldPoint(pos);
+    }
+
+    public ItemInventory CopyInventoryItem(ItemInventory old)
+    {
+        ItemInventory New = new ItemInventory();
+
+        New.id = old.id;
+        New.itemGameObj = old.itemGameObj;
+        New.count = old.count;
     }
 }
 
