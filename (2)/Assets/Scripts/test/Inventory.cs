@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour
     public GameObject InventoryMainObject;
     public int maxCount;
 
-    public Camera cam;
+    public UnityEngine.Camera cam;
     public EventSystem es;
 
     public int currentID;
@@ -75,8 +75,27 @@ public class Inventory : MonoBehaviour
 
             Button tempButton = newItem.GetComponent<Button>();
 
+            tempButton.onClick.AddListener(delegate { SelectObject(); });
+
             items.Add(ii);
 
+        }
+    }
+
+    public void UpdateInventory()
+    {
+        for (int i = 0; i < maxCount; i++)
+        {
+            if (items[i].id != 0 && items[i].count > 1)
+            {
+                items[i].itemGameObj.GetComponentInChildren<Text>().text = items[i].count.ToString();
+            }
+            else
+            {
+                items[i].itemGameObj.GetComponentInChildren<Text>().text = "";
+            }
+
+            items[i].itemGameObj.GetComponentInChildren<Image>().sprite = data.items[items[i].id].image;
         }
     }
 
@@ -116,6 +135,8 @@ public class Inventory : MonoBehaviour
         New.id = old.id;
         New.itemGameObj = old.itemGameObj;
         New.count = old.count;
+
+        return New;
     }
 }
 
