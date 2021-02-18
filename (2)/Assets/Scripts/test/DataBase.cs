@@ -14,5 +14,5 @@ public class DataBase : MonoBehaviour
  {
     public int id;
     public string name;
-    public Sprite image;
+    public Sprite img;
  }

@@ -22,11 +22,35 @@ public class Inventory : MonoBehaviour
     public RectTransform movingObject;
     public Vector3 offset;
 
+    public void Start()
+    {
+        if (items.Count == 0)
+        {
+            AddGraphics();
+        }
+
+        // Для теста  онзаполняет рандомные ячейки
+        for (int i = 0; i < maxCount; i++)
+        {
+            AddItem(i, data.items[Random.Range(0, data.items.Count)], Random.Range(1, 99));
+        }
+        UpdateInventory();
+    }
+
+    public void Update()
+    {
+        if (currentID != -1)
+        {
+            MoveObject();
+        }
+    }
+
+
     public void AddItem(int id, Item item, int count)
     {
         items[id].id = item.id;
         items[id].count = count;
-        items[id].itemGameObj.GetComponent<Image>().sprite = item.image;
+        items[id].itemGameObj.GetComponent<Image>().sprite = item.img;
 
         if (count > 1 && item.id != 0)
         {
@@ -43,7 +67,7 @@ public class Inventory : MonoBehaviour
     {
         items[id].id = invItem.id;
         items[id].count = invItem.count;
-        items[id].itemGameObj.GetComponent<Image>().sprite = data.items[invItem.id].image;
+        items[id].itemGameObj.GetComponent<Image>().sprite = data.items[invItem.id].img;
 
         if (invItem.count > 1 && invItem.id != 0)
         {
@@ -95,7 +119,7 @@ public class Inventory : MonoBehaviour
                 items[i].itemGameObj.GetComponentInChildren<Text>().text = "";
             }
 
-            items[i].itemGameObj.GetComponentInChildren<Image>().sprite = data.items[items[i].id].image;
+            items[i].itemGameObj.GetComponentInChildren<Image>().sprite = data.items[items[i].id].img;
         }
     }
 
@@ -106,7 +130,7 @@ public class Inventory : MonoBehaviour
             currentID = int.Parse(es.currentSelectedGameObject.name);
             currentItem = CopyInventoryItem(items[currentID]);
             movingObject.gameObject.SetActive(true);
-            movingObject.GetComponent<Image>().sprite = data.items[currentItem.id].image;
+            movingObject.GetComponent<Image>().sprite = data.items[currentItem.id].img;
 
             AddItem(currentID, data.items[0], 0);
         }
@@ -115,7 +139,7 @@ public class Inventory : MonoBehaviour
             AddInventoryItem(currentID, items[int.Parse(es.currentSelectedGameObject.name)]);
 
             AddInventoryItem(int.Parse(es.currentSelectedGameObject.name), currentItem);
-            currentID -= 1;
+            currentID = -1;
 
             movingObject.gameObject.SetActive(false);
         }
